@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>containers, engines, & whales</title>
+
+  <meta name="description" content="A presentation about Docker.">
+  <meta name="author" content="Nathan LeClaire">
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/simple.css" id="theme">
+
+  <!-- For syntax highlighting -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+  <script>
+     document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+ </script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+        <style>
+            .tiny {
+                font-size: 20px !important;
+                margin-top: 10px;
+            }
+            #boids {
+                margin-top: 10px;
+            }
+            h1 {
+                margin-bottom: 40px !important;
+            }
+            .green {
+                color: green;
+            }
+            .red {
+                color: red;
+            }
+            div.watermark {
+                position: absolute;
+                bottom: 32px;
+                left: 32px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="watermark">
+          <img src="images/watermark.png"></img>
+      </div>
+
+      <div class="reveal">
+
+        <!-- Any section element inside of this container is displayed as a slide -->
+        <div class="slides">
+            <section data-markdown>
+                <script type="text/template">
+                    ## Containers, Engines, & Whales
+                    ### *...an introduction to Docker*
+                    ![docker](images/diver.jpg)
+    <div class="tiny">presenter: [Nathan LeClaire](http://nathanleclaire.com)</div>
+</script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        ## Welcome!
+
+        - I really appreciate you being here
+        - Today we're going to look at:
+            - Introduction to the Docker Engine and Docker Hub - why are they useful and why are they cool?
+            - Basic usage
+            - Docker orchestration with `fig`
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        ## Who am I?
+        
+
+        ![nathan](images/nathan.jpg)
+
+        *I'm Nathan LeClaire.*
+
+        - Linux/UNIX-centric programmer, technology blogger, and geek
+        - Builder of Docker training materials, first line of defense on customer concerns with the technology 
+        - Lover of writing, music, and avocados
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        # Let's start with some questions!
+
+        - Raise your hand if you've:
+            - Heard of Docker 
+            <!-- .element: class="fragment" data-fragment-index="1" -->
+            - Tried Docker online tutorial
+            <!-- .element: class="fragment" data-fragment-index="2" -->
+            - Installed/tried Docker binary
+            <!-- .element: class="fragment" data-fragment-index="3" -->
+            - Used Docker Hub
+            <!-- .element: class="fragment" data-fragment-index="4" -->
+            - Run Docker in development/QA/production
+            <!-- .element: class="fragment" data-fragment-index="5" -->
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        # What is Docker and why does it matter?
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        ## What is it?
+
+        - Platform for building, shipping, and running applications in Linux Containers.
+            - *"Engine"* is the binary that you interact with on the command line and deals mostly with: building applications and running them (some technical details on this in a moment).
+            - *"Hub"* is the Docker Hub website ([hub.docker.com](https://hub.docker.com)) and deals with community / social aspects, image distribution, and some cool features such as automatic building of images on push to Github.
+     </script>
+ </section>
+ <section data-markdown>
+    <script type="text/template">
+        ## And most importantly:
+        ![community](images/contributors.jpg)
+
+        Docker is a *community*, that we would love to have you join!
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        ## Note&#58; There's a lot more to a community than code
+
+        Many ways to help:
+
+        - Contribute to documentation
+        - Blog about your experiences using Docker (protip: tweet [@docker](http://twitter.com/docker) when you publish)
+        - Hang out with us and ask questions on IRC and Twitter
+        - Report bugs or issues on Github
+        - Make and share useful images
+
+        <br>
+        All of these functions are **IMPORTANT**!
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        ## Why does Docker matter?
+        - Deploy everything with lots of control and flexiblity.
+            - Webapps
+            - Databases
+            - Big data, etc.
+        - Provides nice process isolation abstraction that plays well with others.
+            - Loves both VMs and bare metal
+            - Can use configuration management tools if you like them, or not - your choice
+        - Escape dependency hell and non-repeatability
+        - Leverage enthusiastic, fast-growing OSS community
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        ## OK, how does it work?
+        - Takes advantage of containerization technology, providing lots of UX niceness on top of features borrowed from or inspired by:
+            - FreeBSD jails
+            - chroot
+            - Solaris Zones
+            - OpenVZ
+        - Containers share kernel with host, and in some cases share binaries/libraries with other containers to save space
+        - Originally used only [LXC](https://linuxcontainers.org/) under the hood, now there is a swappable "exec-driver" and the default is a Go-based implementation called libcontainer
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        # Let's look under the hood a bit.
+        ![hood](images/underthehood.jpg)
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        ## How do containers work ?
+
+        - *namespaces* isolate processes
+            - pid
+            - mnt
+            - net
+            - uts
+            - ipc
+        - *cgroups* control resources
+            - memory
+            - cpu
+            - blkio
+            - devices
+            - Copy-on-write storage for efficient disk usage
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        ## Docker Hub
+        ![dockerhub](images/dockerhub.png)
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        ## What about Docker Hub?
+
+        - Docker is a very powerful tool on CLI
+            - Becomes even more useful through network effects when you can use other peoples' images and vice versa
+            - Pull and push mechanic similar to what you are familiar with from DVCS
+        - Docker Hub provides a central Registry with:
+            - Verified and maintained "base images" for building other images (everything from Ubuntu to Node.js to Redis etc.)
+            - Paid private repositories if you don't want to share your images with the world
+            - Helpful features such as automated builds and webhooks
+            - User authentication and authorization
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        ## Automated Build
+
+        - Trigger re-build of image based on Dockerfile in git repository (Github or Bitbucket)
+
+        ![automatedbuild](images/automatedbuild.png)
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        ## Web Hooks & Build Triggers
+
+        - Trigger actions (e.g. run test suite in CI) when build is complete on Docker Hub etc.
+
+        ![webhooks](images/webhooks.png)
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        # Let's see some basic `docker` commands.
+
+        - `docker ps` (see running containers)
+        - `docker run`   (create and start containers)
+        - `docker logs`  (look at container output)
+        - `docker stop` (remove containers)
+        - `docker build` (build images)
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+        ## fig
+        ![fig](images/backends/fig.png)
+    </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+      ## `fig` is fun
+      - And useful - `fig up` bootstraps a full prod-like dev environment *fast*
+
+      ![figup](images/figup.gif)
+  </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+       ## That's all folks.  Go forth and Dockerize!
+
+       - Github: [github.com/docker/docker](https://github.com/docker/docker)
+       - Join us on :
+           - `#docker` and `#docker-dev` on IRC  (Freenode)
+           - `#libcontainer` and `#libswarm` on IRC (Freenode)
+       - Docker Hub is at [hub.docker.com](https://hub.docker.com) if you want to take it for a spin.
+       - These slides available online at [nathanleclaire.github.io/docker101-talk](https://nathanleclaire.github.io/docker101-talk)
+       - Don't be afraid to poke me if you have a question!
+   </script>
+</section>
+</div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script>
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+        { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+        { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+            // { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+            // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+            ]
+        });
+</script>
+
+</body>
+</html>
