@@ -2,266 +2,327 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
+<meta charset="utf-8">
 
-  <title>containers, engines, & whales</title>
+<title>Docker and VMware: All of their strengths, none of their weaknesses</title>
 
-  <meta name="description" content="A presentation about Docker.">
-  <meta name="author" content="Nathan LeClaire">
+<meta name="description" content="A presentation about Docker.">
+<meta name="author" content="Nathan LeClaire">
 
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <link rel="stylesheet" href="css/reveal.min.css">
-  <link rel="stylesheet" href="css/theme/simple.css" id="theme">
+<link rel="stylesheet" href="css/reveal.min.css">
+<link rel="stylesheet" href="css/theme/simple.css" id="theme">
 
-  <!-- For syntax highlighting -->
-  <link rel="stylesheet" href="lib/css/zenburn.css">
+<!-- For syntax highlighting -->
+<link rel="stylesheet" href="lib/css/zenburn.css">
 
-  <!-- If the query includes 'print-pdf', use the PDF print sheet -->
-  <script>
-     document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
- </script>
-
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
-        <style>
-            .tiny {
-                font-size: 20px !important;
-                margin-top: 10px;
-            }
-            #boids {
-                margin-top: 10px;
-            }
-            h1 {
-                margin-bottom: 40px !important;
-            }
-            .green {
-                color: green;
-            }
-            .red {
-                color: red;
-            }
-            div.watermark {
-                position: absolute;
-                bottom: 32px;
-                left: 32px;
-            }
-        </style>
-    </head>
-
-    <body>
-        <div class="watermark">
-          <img src="images/watermark.png"></img>
-      </div>
-
-      <div class="reveal">
-
-        <!-- Any section element inside of this container is displayed as a slide -->
-        <div class="slides">
-            <section data-markdown>
-                <script type="text/template">
-                    ## Containers, Engines, & Whales
-                    ### *...an introduction to Docker*
-                    ![docker](images/diver.jpg)
-    <div class="tiny">presenter: [Nathan LeClaire](http://nathanleclaire.com)</div>
+<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+<script>
+ document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
 </script>
+
+	<!--[if lt IE 9]>
+	<script src="lib/js/html5shiv.js"></script>
+	<![endif]-->
+    <style>
+        .tiny {
+            font-size: 20px !important;
+            margin-top: 10px;
+        }
+        #boids {
+            margin-top: 10px;
+        }
+        h1 {
+            margin-bottom: 40px !important;
+        }
+        .green {
+            color: green;
+        }
+        .red {
+            color: red;
+        }
+        div.watermark {
+            position: absolute;
+            bottom: 32px;
+            left: 32px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="watermark">
+    <img src="images/watermark.png"></img>
+</div>
+
+<div class="reveal">
+<div class="slides">
+<section data-markdown>
+    <script type="text/template">
+    ## Docker &amp; VMware
+    ### _Better Together_
+
+    ![](/images/vmware.png)
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-        ## Welcome!
+    ## First things first:  
+    ## We _really_ appreciate you all
+    ## coming to this meetup, and VMware for such a great week of activity.
+   </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+    ## Whoami?
 
-        - I really appreciate you being here
-        - Today we're going to look at:
-            - Introduction to the Docker Engine and Docker Hub - why are they useful and why are they cool?
-            - Basic usage
-            - Docker orchestration with `fig`
+    ![](/images/huslage.jpeg)
+
+    - Aaron Huslage a.k.a. [huslage](https://github.com/huslage).
+    - Solutions Engineer @ Docker Inc.  helping customers succeed with the Docker platform
+    - Enterprise-grade Systems Administrator, early employee at Red Hat
+    - World traveller and philanthropist
+   </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+    # So, you want to know about VMs
+    # and containers together, eh?
+   </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+    ## What we'll go over today
+    - Virtual Machine and Container overview
+         - What are they?
+         - Where VMware and Docker fit in the picture
+    - All of their strengths, none of their weaknesses
+         - VMware strengths
+         - Docker strengths
+    - Demo of continuous integration and deployment using Docker and VMware cloud infrastructure.
+   </script>
+</section>
+
+<section data-markdown>
+    <script type="text/template">
+    # Virtual Machine and Container overview
+   </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+    ## Virtual Machines
+    - Traditionally, _virtual machines_ emulate an actual physical hardware layer within software.
+    - This allows users to run programs for a certain kind of chip architecture on other chip architectures and more, thus solving many portability headaches.
+    - Shift to virtualization has been immense for both the data center and the desktop
+    - Ever play old NES games on your computer?  You're virtualizing!
+   </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+    ![](/images/vmwlogo.png)
+
+    - Founded in 1998
+    - First to successfully virtualize the x86 architecture
+    - Strong force in both desktop & server virtualization
+    - Makes type 1 & type 2 hypervisors
+         - Type 1: "Bare metal" hypervisors
+         - Type 2: Hypervisors targeting underlying OS layer such as Windows or Mac
     </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-        ## Who am I?
-        
-
-        ![nathan](images/nathan.jpg)
-
-        *I'm Nathan LeClaire.*
-
-        - Linux/UNIX-centric programmer, technology blogger, and geek
-        - Builder of Docker training materials, first line of defense on customer concerns with the technology 
-        - Lover of writing, music, and avocados
-    </script>
+    ## Containers
+    - Inspired by UNIX features such as `chroot` and BSD jails, Solaris zones, etc.
+    - Designed to use modern features (c. 2005-present) of the Linux kernel
+         - namespaces and cgroups
+         historically hard to manage
+    - LXC project
+    - Process isolation with performance (shared kernel and shared files if you slap a copy-on-write filesystem on top)
+         - Looks super appealing for platform-as-a-service and high density applications but 
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-        # Let's start with some questions!
-
-        - Raise your hand if you've:
-            - Heard of Docker 
-            <!-- .element: class="fragment" data-fragment-index="1" -->
-            - Tried Docker online tutorial
-            <!-- .element: class="fragment" data-fragment-index="2" -->
-            - Installed/tried Docker binary
-            <!-- .element: class="fragment" data-fragment-index="3" -->
-            - Used Docker Hub
-            <!-- .element: class="fragment" data-fragment-index="4" -->
-            - Run Docker in development/QA/production
-            <!-- .element: class="fragment" data-fragment-index="5" -->
-    </script>
+    ## Until...
+    ![](/images/og_docker.png)
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-        # What is Docker and why does it matter?
-    </script>
+    ## Docker Inc.
+    ![](/images/docker.png)
+
+    - Originally a platform-as-a-service company named dotCloud.  Docker, an engine for managing Linux Containers, was built out of the lessons learned from running the PaaS and open-sourced.
+    - Due to Docker's swell in popularity, the company pivoted to be named Docker Inc. in November 2013
+    - Offer support, services, and education around our container technology
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-        ## What is it?
-
-        - Platform for building, shipping, and running applications in Linux Containers.
-            - *"Engine"* is the binary that you interact with on the command line and deals mostly with: building applications and running them (some technical details on this in a moment).
-            - *"Hub"* is the Docker Hub website ([hub.docker.com](https://hub.docker.com)) and deals with community / social aspects, image distribution, and some cool features such as automatic building of images on push to Github.
-     </script>
- </section>
- <section data-markdown>
-    <script type="text/template">
-        ## And most importantly:
-        ![community](images/contributors.jpg)
-
-        Docker is a *community*, that we would love to have you join!
-    </script>
+    ## Docker and VMware are both pioneers.
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-        ## Note&#58; There's a lot more to a community than code
-
-        Many ways to help:
-
-        - Contribute to documentation
-        - Blog about your experiences using Docker (protip: tweet [@docker](http://twitter.com/docker) when you publish)
-        - Hang out with us and ask questions on IRC and Twitter
-        - Report bugs or issues on Github
-        - Make and share useful images
-
-        <br>
-        All of these functions are **IMPORTANT**!
-    </script>
+    Chuck Hollis of VMware making a shipping container metaphor in 2008.
+    ![](/images/chuck-article.png)
+    Docker was just a twinkle in a hacker's eye then.
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-        ## Why does Docker matter?
-        - Deploy everything with lots of control and flexiblity.
-            - Webapps
-            - Databases
-            - Big data, etc.
-        - Provides nice process isolation abstraction that plays well with others.
-            - Loves both VMs and bare metal
-            - Can use configuration management tools if you like them, or not - your choice
-        - Escape dependency hell and non-repeatability
-        - Leverage enthusiastic, fast-growing OSS community
-    </script>
+    ## Warden (2008)
+    ![](/images/cloudfoundry.png)
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-        ## OK, how does it work?
-        - Takes advantage of containerization technology, providing lots of UX niceness on top of features borrowed from or inspired by:
-            - FreeBSD jails
-            - chroot
-            - Solaris Zones
-            - OpenVZ
-        - Containers share kernel with host, and in some cases share binaries/libraries with other containers to save space
-        - Originally used only [LXC](https://linuxcontainers.org/) under the hood, now there is a swappable "exec-driver" and the default is a Go-based implementation called libcontainer
-    </script>
+    ## Media loves to scream about "VMs vs. Containers", but it
+    ##  isn't an either/or.  
+    ## They're best used together.
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-        # Let's look under the hood a bit.
-        ![hood](images/underthehood.jpg)
-    </script>
-</section>
-<section data-markdown>
-    <script type="text/template">
-        ## How do containers work ?
+    The modern data center is incredibly complex.
 
-        - *namespaces* isolate processes
-            - pid
-            - mnt
-            - net
-            - uts
-            - ipc
-        - *cgroups* control resources
-            - memory
-            - cpu
-            - blkio
-            - devices
-            - Copy-on-write storage for efficient disk usage
-    </script>
+    ![](/images/server_racks.jpg)
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-        ## Docker Hub
-        ![dockerhub](images/dockerhub.png)
-    </script>
+    Why argue when we can get the best of both worlds?
+
+    ![](images/blade.jpeg)
+
+    "All of their strengths, and none of their weaknesses."
+   </script>
+</section>
+<section data-markdown>
+   <script type="text/template">
+   ## What does VMware bring to the table?
+   </script>
+</section>
+<section data-markdown>
+   <script type="text/template">
+   ## Reliability
+
+   ![](/images/boulder.jpeg)
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-        ## What about Docker Hub?
+    ## Reliability
 
-        - Docker is a very powerful tool on CLI
-            - Becomes even more useful through network effects when you can use other peoples' images and vice versa
-            - Pull and push mechanic similar to what you are familiar with from DVCS
-        - Docker Hub provides a central Registry with:
-            - Verified and maintained "base images" for building other images (everything from Ubuntu to Node.js to Redis etc.)
-            - Paid private repositories if you don't want to share your images with the world
-            - Helpful features such as automated builds and webhooks
-            - User authentication and authorization
-    </script>
+    - Mature, battle-hardened, tested software.
+    - Uptime guarantees and audit trails.
+    - Suite of tools around their products for your every need.
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-        ## Automated Build
+    ## Security
 
-        - Trigger re-build of image based on Dockerfile in git repository (Github or Bitbucket)
-
-        ![automatedbuild](images/automatedbuild.png)
-    </script>
+    ![](/images/security.jpeg)
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-        ## Web Hooks & Build Triggers
+    ## Security
+    - There's a virtual machine running between my host and the containers. Phew
+         - Container malfunction should not translate to malfunction of the whole infrastructure.
+         - Potentially malicious containers can be wrapped in another layer of protection ("containers do not contain")
+    - Access to Docker itself can only be handled securely at a virtualized level.  One Docker instance per VM is reasonable, giving arbitrary users root and access to `/var/run/docker.sock` is BAD
 
-        - Trigger actions (e.g. run test suite in CI) when build is complete on Docker Hub etc.
-
-        ![webhooks](images/webhooks.png)
-    </script>
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-        # Let's see some basic `docker` commands.
+    ## Flexibility
 
-        - `docker ps` (see running containers)
-        - `docker run`   (create and start containers)
-        - `docker logs`  (look at container output)
-        - `docker stop` (remove containers)
-        - `docker build` (build images)
-    </script>
+    ![](/images/mr-fantastic.jpeg)
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-        ## fig
-        ![fig](images/backends/fig.png)
-    </script>
+    ## Flexibility
+
+    - Want to run Windows on Mac, or Linux on Windows, or try out weird random OSes without having to worry about giving them access to your physical machine?  VMware's got your back.
+    - Can create pre-baked virtual machine images that spin up the exact environment you want to work in (e.g. Docker pre-installed).
+    - So much support across hosts because of this
+    - Plenty of existing limitations with Docker that can be circumvented by going VM e.g. volumes
+    - No VMs, No Docker on Windows or OSX 
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
-      ## `fig` is fun
-      - And useful - `fig up` bootstraps a full prod-like dev environment *fast*
+    # What does Docker bring to the table?
+   </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+    ## Performance
 
-      ![figup](images/figup.gif)
-  </script>
+    ![](/images/vette.jpeg)
+   </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+    ## Performance
+
+    - Using the same kernel between containers is basically cheating as far as CPU and memory goes.  Docker is operating-system-level / app-level virtualization, not hardware virtualization.
+         - Great for nesting levels of virtualization.
+    - Union file systems which have copy-on-write as a property allow for efficient disk usage
+    - Images can be moved around and booted quickly, both using the recommended way (Docker Hub + `docker pull`) and with dirty hacks
+   </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+    ## Portability
+
+    ![](/images/foldbike.jpeg)
+   </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+    ## Portability
+
+    - Images can be moved around quickly and relatively painlessly
+    - Developers and sysadmins can move applications around in a more light-weight form, but still get advantages of isolation
+    - Enable consistent provisioning across sometimes wildly varying infrastructure
+   </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+    ## Community
+
+    ![](/images/contributors.jpeg)
+   </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+    ## Community
+
+   - VMware, Google, Red Hat, Microsoft, and many other great companies are part of a thriving community standardizing and improving Docker
+   - Docker Hub provides a central index with many great features including:
+         - automated builds
+         - webhooks for automation,
+         - official base images for popular stacks.
+   - Good old fashioned open source enthusiasm (Peace, Love, and IRC)
+   </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+    # Demo
+   </script>
+</section>
+<section data-markdown>
+    <script type="text/template">
+    # Questions?
+   </script>
 </section>
 <section data-markdown>
     <script type="text/template">
@@ -272,7 +333,7 @@
            - `#docker` and `#docker-dev` on IRC  (Freenode)
            - `#libcontainer` and `#libswarm` on IRC (Freenode)
        - Docker Hub is at [hub.docker.com](https://hub.docker.com) if you want to take it for a spin.
-       - These slides available online at [nathanleclaire.github.io/docker101-talk](https://nathanleclaire.github.io/docker101-talk)
+       - These slides available online at [nathanleclaire.github.io/vmworld-meetup-talk](https://nathanleclaire.github.io/vmworld-meetup-talk)
        - Don't be afraid to poke me if you have a question!
    </script>
 </section>
