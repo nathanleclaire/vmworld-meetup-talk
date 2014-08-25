@@ -72,9 +72,17 @@
     <script type="text/template">
     ## First things first:  
     ## We _really_ appreciate you all
-    ## coming to this meetup, and VMware for such a great week of activity.
+    ## coming to this meetup!
    </script>
 </section>
+
+<section data-markdown>
+    <script type="text/template">
+    ## We want to thank VMware for their 
+    ## help putting together our demo!
+   </script>
+</section>
+
 <section data-markdown>
     <script type="text/template">
     ## Whoami?
@@ -95,7 +103,7 @@
 </section>
 <section data-markdown>
     <script type="text/template">
-    ## What we'll go over today
+    ## What we'll cover today
     - Virtual Machine and Container overview
          - What are they?
          - Where VMware and Docker fit in the picture
@@ -115,9 +123,9 @@
     <script type="text/template">
     ## Virtual Machines
     - Traditionally, _virtual machines_ emulate an actual physical hardware layer within software.
-    - This allows users to run programs for a certain kind of chip architecture on other chip architectures and more, thus solving many portability headaches.
+    - This allows users to run programs for one chip architecture on other chip architectures, thus solving portability headaches.
     - Shift to virtualization has been immense for both the data center and the desktop
-    - Ever play old NES games on your computer?  You're virtualizing!
+    - Ever play old NES games on your computer? You're virtualizing!
    </script>
 </section>
 <section data-markdown>
@@ -126,8 +134,8 @@
 
     - Founded in 1998
     - First to successfully virtualize the x86 architecture
-    - Strong force in both desktop & server virtualization
-    - Makes type 1 & type 2 hypervisors
+    - Strong force in desktop & server virtualization
+    - Make type 1 & type 2 hypervisors
          - Type 1: "Bare metal" hypervisors
          - Type 2: Hypervisors targeting underlying OS layer such as Windows or Mac
     </script>
@@ -135,13 +143,12 @@
 <section data-markdown>
     <script type="text/template">
     ## Containers
-    - Inspired by UNIX features such as `chroot` and BSD jails, Solaris zones, etc.
-    - Designed to use modern features (c. 2005-present) of the Linux kernel
+    - Inspired by UNIX features such as `chroot` and BSD jails, Solaris Zones, etc.
+    - Designed to use modern features of the Linux kernel.
          - namespaces and cgroups
-         historically hard to manage
     - LXC project
-    - Process isolation with performance (shared kernel and shared files if you slap a copy-on-write filesystem on top)
-         - Looks super appealing for platform-as-a-service and high density applications but 
+    - Process isolation with performance
+         - Looks appealing for platform-as-a-service and high density applications but historically hard to manage
    </script>
 </section>
 <section data-markdown>
@@ -155,9 +162,9 @@
     ## Docker Inc.
     ![](images/docker.png)
 
-    - Originally a platform-as-a-service company named dotCloud.  Docker, an engine for managing Linux Containers, was built out of the lessons learned from running the PaaS and open-sourced.
-    - Due to Docker's swell in popularity, the company pivoted to be named Docker Inc. in November 2013
-    - Offer support, services, and education around our container technology
+    - Originally a platform-as-a-service company named dotCloud. Docker, an open source engine for managing Linux Containers, was built out of the lessons learned from running the PaaS.
+    - Due to Docker's swell in popularity, the company pivoted to be named Docker Inc. in November 2013.
+    - Runs the Docker Hub plus support, services, and education.
    </script>
 </section>
 <section data-markdown>
@@ -180,7 +187,7 @@
 </section>
 <section data-markdown>
     <script type="text/template">
-    ## Media loves to scream about "VMs vs. Containers", but it
+    ## Media loves to talk about "VMs vs. Containers", but it
     ##  isn't an either/or.  
     ## They're best used together.
    </script>
@@ -233,10 +240,9 @@
     <script type="text/template">
     ## Security
     - There's a virtual machine running between my host and the containers. Phew
-         - Container malfunction should not translate to malfunction of the whole infrastructure.
-         - Potentially malicious containers can be wrapped in another layer of protection ("containers do not contain")
-    - Access to Docker itself can only be handled securely at a virtualized level.  One Docker instance per VM is reasonable, giving arbitrary users root and access to `/var/run/docker.sock` is BAD
-
+         - Container availability does not translate to the whole infrastructure.
+         - Provide another layer of security.
+    - Access to Docker itself can only be handled securely at a virtualized level.
    </script>
 </section>
 <section data-markdown>
@@ -250,10 +256,8 @@
     <script type="text/template">
     ## Flexibility
 
-    - Want to run Windows on Mac, or Linux on Windows, or try out weird random OSes without having to worry about giving them access to your physical machine?  VMware's got your back.
-    - Can create pre-baked virtual machine images that spin up the exact environment you want to work in (e.g. Docker pre-installed).
-    - So much support across hosts because of this
-    - Plenty of existing limitations with Docker that can be circumvented by going VM e.g. volumes
+    - Want to run Windows on Mac, or Linux on Windows, without giving them access to your physical machine? VMware's got your back.
+    - Can create pre-baked virtual machine images that spin up the exact environment you want to work in.
     - No VMs, No Docker on Windows or OSX 
    </script>
 </section>
@@ -273,10 +277,10 @@
     <script type="text/template">
     ## Performance
 
-    - Using the same kernel between containers is basically cheating as far as CPU and memory goes.  Docker is operating-system-level / app-level virtualization, not hardware virtualization.
+    - Docker is fast! It's operating-system-level / app-level virtualization, not hardware virtualization.
          - Great for nesting levels of virtualization.
-    - Union file systems which have copy-on-write as a property allow for efficient disk usage
-    - Images can be moved around and booted quickly, both using the recommended way (Docker Hub + `docker pull`) and with dirty hacks
+    - Union file systems with copy-on-write make for very efficient disk usage.
+    - Images can be moved around and booted quickly.
    </script>
 </section>
 <section data-markdown>
@@ -290,9 +294,9 @@
     <script type="text/template">
     ## Portability
 
-    - Images can be moved around quickly and relatively painlessly
-    - Developers and sysadmins can move applications around in a more light-weight form, but still get advantages of isolation
-    - Enable consistent provisioning across sometimes wildly varying infrastructure
+    - Images can be moved around quickly and painlessly.
+    - Developers and sysadmins can move applications around in a more light-weight form, but still get isolation.
+    - Enable consistent provisioning across varying infrastructure.
    </script>
 </section>
 <section data-markdown>
@@ -306,12 +310,12 @@
     <script type="text/template">
     ## Community
 
-   - VMware, Google, Red Hat, Microsoft, and many other great companies are part of a thriving community standardizing and improving Docker
-   - Docker Hub provides a central index with many great features including:
-         - automated builds
-         - webhooks for automation
-         - official base images for popular stacks
-   - Good old fashioned open source enthusiasm (Peace, Love, and IRC)
+   - VMware, Google, Red Hat, Microsoft, and many other great companies are part of a thriving community standardizing and improving Docker.
+   - Docker Hub provides a central index with features including:
+         - Automated builds
+         - Webhooks for automation
+         - Official base images for popular stacks
+   - Strength and depth of a growing open source community.
    </script>
 </section>
 <section data-markdown>
